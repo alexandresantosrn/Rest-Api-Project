@@ -17,7 +17,7 @@ public class User {
 	private Long id;
 	private String name;
 	private String email;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "department_id")
 	private Departament department;
