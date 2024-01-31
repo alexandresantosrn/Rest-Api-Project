@@ -1,0 +1,6 @@
+# Spring Boot
+Link: https://www.youtube.com/watch?v=D4frmIHAxEY
+
+# Swagger
+Link: https://www.youtube.com/watch?v=vHL02dlRv9I
+https://cursos.alura.com.br/forum/topico-como-alterar-a-url-padrao-do-springfox-swagger-162221
