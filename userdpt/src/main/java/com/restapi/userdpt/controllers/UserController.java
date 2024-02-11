@@ -2,6 +2,7 @@ package com.restapi.userdpt.controllers;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,9 +44,9 @@ public class UserController {
 
 	@Operation(description = "Busca o usuário através do seu id.")
 	@GetMapping(value = "/{id}")
-	public User listUserById(@PathVariable Long id) {
+	public ResponseEntity<User> listUserById(@PathVariable Long id) {
 		User result = userService.listUserById(id);
-		return result;
+		return ResponseEntity.ok().body(result);
 	}
 
 	@Operation(description = "Remove o usuário através do seu id.")
