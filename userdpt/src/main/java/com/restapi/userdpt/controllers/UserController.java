@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.restapi.userdpt.dtos.UserDTO;
 import com.restapi.userdpt.entities.User;
 import com.restapi.userdpt.services.UserService;
 
@@ -24,14 +25,13 @@ public class UserController {
 	private final UserService userService;
 
 	public UserController(UserService userService) {
-		super();
 		this.userService = userService;
 	}
 
 	@Operation(description = "Salva um novo usuário na base de dados.")
 	@PostMapping
-	public User createUser(@RequestBody User user) {
-		User result = userService.createUser(user);
+	public UserDTO createUser(@RequestBody User user) {
+		UserDTO result = userService.createUser(user);
 		return result;
 	}
 
@@ -44,8 +44,8 @@ public class UserController {
 
 	@Operation(description = "Busca o usuário através do seu id.")
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<User> listUserById(@PathVariable Long id) {
-		User result = userService.listUserById(id);
+	public ResponseEntity<UserDTO> listUserById(@PathVariable Long id) {
+		UserDTO result = userService.listUserById(id);
 		return ResponseEntity.ok().body(result);
 	}
 

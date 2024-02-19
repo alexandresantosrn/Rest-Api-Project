@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.restapi.userdpt.dtos.UserDTO;
 import com.restapi.userdpt.entities.User;
 import com.restapi.userdpt.exceptions.EntityNotFoundException;
 import com.restapi.userdpt.repositories.UserRepository;
@@ -15,13 +16,13 @@ public class UserService {
 	private final UserRepository userRepository;
 
 	public UserService(UserRepository userRepository) {
-		super();
 		this.userRepository = userRepository;
 	}
 
-	public User createUser(User user) {
+	public UserDTO createUser(User user) {
 		User result = userRepository.save(user);
-		return result;
+		UserDTO dto = new UserDTO(result);
+		return dto;
 	}
 
 	public List<User> listUsers() {
@@ -30,9 +31,10 @@ public class UserService {
 		return result;
 	}
 
-	public User listUserById(Long id) {
+	public UserDTO listUserById(Long id) {
 		User result = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Id not found: " + id));
-		return result;
+		UserDTO dto = new UserDTO(result);
+		return dto;
 	}
 
 	public void deleteUserById(Long id) {
