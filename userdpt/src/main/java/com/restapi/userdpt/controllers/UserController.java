@@ -31,15 +31,13 @@ public class UserController {
 	@Operation(description = "Salva um novo usuário na base de dados.")
 	@PostMapping
 	public UserDTO createUser(@RequestBody User user) {
-		UserDTO result = userService.createUser(user);
-		return result;
+		return userService.createUser(user);
 	}
 
 	@Operation(description = "Busca todos os usuários.")
 	@GetMapping
 	public List<User> listUsers() {
-		List<User> result = userService.listUsers();
-		return result;
+		return userService.listUsers();
 	}
 
 	@Operation(description = "Busca o usuário através do seu id.")

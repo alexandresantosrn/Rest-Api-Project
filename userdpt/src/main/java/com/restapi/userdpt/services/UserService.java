@@ -27,8 +27,7 @@ public class UserService {
 
 	public List<User> listUsers() {
 		Sort sort = Sort.by("department").descending().and(Sort.by("name").ascending());
-		List<User> result = userRepository.findAll(sort);
-		return result;
+		return userRepository.findAll(sort);
 	}
 
 	public UserDTO listUserById(Long id) {
