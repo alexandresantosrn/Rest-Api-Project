@@ -2,6 +2,7 @@ package com.restapi.userdpt.services;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +15,16 @@ import com.restapi.userdpt.repositories.UserRepository;
 public class UserService {
 
 	private final UserRepository userRepository;
+	private final ModelMapper modelMapper;
 
-	public UserService(UserRepository userRepository) {
+	public UserService(UserRepository userRepository, ModelMapper modelMapper) {
 		this.userRepository = userRepository;
+		this.modelMapper = modelMapper;
 	}
 
 	public UserDTO createUser(User user) {
 		User result = userRepository.save(user);
-		UserDTO dto = new UserDTO(result);
-		return dto;
+		return new UserDTO(result);		
 	}
 
 	public List<User> listUsers() {
@@ -32,8 +34,7 @@ public class UserService {
 
 	public UserDTO listUserById(Long id) {
 		User result = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Id not found: " + id));
-		UserDTO dto = new UserDTO(result);
-		return dto;
+		return modelMapper.map(result, UserDTO.class);	
 	}
 
 	public void deleteUserById(Long id) {

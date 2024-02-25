@@ -23,7 +23,6 @@ public class User {
 	private Departament department;
 
 	public User() {
-		
 	}
 
 	public Long getId() {
