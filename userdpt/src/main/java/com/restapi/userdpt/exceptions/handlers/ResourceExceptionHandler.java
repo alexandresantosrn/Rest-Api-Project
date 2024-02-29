@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.restapi.userdpt.exceptions.EntityNotFoundException;
+import com.restapi.userdpt.exceptions.NegocioException;
 import com.restapi.userdpt.exceptions.StandardError;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +26,18 @@ public class ResourceExceptionHandler {
 		err.setPath(request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+	}
+	
+	@ExceptionHandler(NegocioException.class)
+	public ResponseEntity<StandardError> negocioException(NegocioException e, HttpServletRequest request) {
+		StandardError err = new StandardError();
+		err.setTimestamp(Instant.now());
+		err.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
+		err.setError("Business error");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
 	}
 
 }
