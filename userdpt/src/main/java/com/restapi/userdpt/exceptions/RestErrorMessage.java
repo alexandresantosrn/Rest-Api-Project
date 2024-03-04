@@ -3,7 +3,7 @@ package com.restapi.userdpt.exceptions;
 import java.io.Serializable;
 import java.time.Instant;
 
-public class StandardError implements Serializable {
+public class RestErrorMessage implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -13,7 +13,7 @@ public class StandardError implements Serializable {
 	private String message;
 	private String path;
 
-	public StandardError() {
+	public RestErrorMessage() {
 		super();
 	}
 

@@ -1,6 +1,7 @@
 package com.restapi.userdpt.services;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
@@ -26,11 +27,10 @@ public class UserService {
 	public UserDTO createUser(User user) {
 
 		List<User> users = listUsers();
-
 		for (User userLocal : users) {
 			if (userLocal.getEmail().equals(user.getEmail())) {
 				throw new NegocioException(
-						"Cadastro não permitido. Já existe um usuário cadastrado com o e-mail informado");
+						"Cadastro não permitido. Já existe um usuário cadastrado com o e-mail informado.");
 			}
 		}
 
@@ -49,10 +49,24 @@ public class UserService {
 	}
 
 	public void deleteUserById(Long id) {
-		userRepository.deleteById(id);
+		UserDTO userDTO = listUserById(id);
+		userRepository.deleteById(userDTO.getId());
 	}
 
 	public void updateUser(User user) {
-		userRepository.save(user);
+		boolean userExists = false;
+
+		List<User> users = listUsers();
+		for (User userLocal : users) {
+			if (Objects.equals(userLocal.getId(), user.getId())) {
+				userRepository.save(user);
+				userExists = true;
+				break;
+			}
+		}
+
+		if (!userExists) {
+			throw new EntityNotFoundException("Id not found: " + user.getId());
+		}
 	}
 }

@@ -2,6 +2,7 @@ package com.restapi.userdpt.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.restapi.userdpt.arq.Messages;
 import com.restapi.userdpt.dtos.UserDTO;
 import com.restapi.userdpt.entities.User;
 import com.restapi.userdpt.services.UserService;
@@ -30,8 +32,9 @@ public class UserController {
 
 	@Operation(description = "Salva um novo usuário na base de dados.")
 	@PostMapping
-	public UserDTO createUser(@RequestBody User user) {
-		return userService.createUser(user);
+	public ResponseEntity<String> createUser(@RequestBody User user) {
+		userService.createUser(user);
+		return ResponseEntity.status(HttpStatus.CREATED).body(Messages.SUCESS.getMessage());
 	}
 
 	@Operation(description = "Busca todos os usuários.")
@@ -49,13 +52,15 @@ public class UserController {
 
 	@Operation(description = "Remove o usuário através do seu id.")
 	@DeleteMapping(value = "/{id}")
-	public void deleteUserById(@PathVariable Long id) {
+	public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
 		userService.deleteUserById(id);
+		return ResponseEntity.ok(Messages.REMOTION.getMessage());
 	}
 
 	@Operation(description = "Atualiza o usuário na base de dados.")
 	@PutMapping
-	public void updateUser(@RequestBody User user) {
+	public ResponseEntity<String> updateUser(@RequestBody User user) {
 		userService.updateUser(user);
+		return ResponseEntity.ok(Messages.UPDATE.getMessage());
 	}
 }

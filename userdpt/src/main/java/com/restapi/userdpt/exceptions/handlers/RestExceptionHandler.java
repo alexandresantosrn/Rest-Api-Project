@@ -9,28 +9,27 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.restapi.userdpt.exceptions.EntityNotFoundException;
 import com.restapi.userdpt.exceptions.NegocioException;
-import com.restapi.userdpt.exceptions.StandardError;
+import com.restapi.userdpt.exceptions.RestErrorMessage;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
-public class ResourceExceptionHandler {
-	
+public class RestExceptionHandler {
+
 	@ExceptionHandler(EntityNotFoundException.class)
-	public ResponseEntity<StandardError> entityNotFound(EntityNotFoundException e, HttpServletRequest request) {
-		StandardError err = new StandardError();
+	public ResponseEntity<RestErrorMessage> entityNotFound(EntityNotFoundException e, HttpServletRequest request) {
+		RestErrorMessage err = new RestErrorMessage();
 		err.setTimestamp(Instant.now());
 		err.setStatus(HttpStatus.NOT_FOUND.value());
 		err.setError("Resource not found");
 		err.setMessage(e.getMessage());
 		err.setPath(request.getRequestURI());
-
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 	}
-	
+
 	@ExceptionHandler(NegocioException.class)
-	public ResponseEntity<StandardError> negocioException(NegocioException e, HttpServletRequest request) {
-		StandardError err = new StandardError();
+	public ResponseEntity<RestErrorMessage> negocioException(NegocioException e, HttpServletRequest request) {
+		RestErrorMessage err = new RestErrorMessage();
 		err.setTimestamp(Instant.now());
 		err.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
 		err.setError("Business error");
