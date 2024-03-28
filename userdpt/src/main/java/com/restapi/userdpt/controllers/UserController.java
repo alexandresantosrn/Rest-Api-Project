@@ -2,6 +2,7 @@ package com.restapi.userdpt.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,28 +40,31 @@ public class UserController {
 
 	@Operation(description = "Busca todos os usuários.")
 	@GetMapping
-	public List<User> listUsers() {
-		return userService.listUsers();
+	public ResponseEntity<List<User>> listUsers() {
+		List<User> users = userService.listUsers();
+		return ResponseEntity.ok(users);
 	}
 
 	@Operation(description = "Busca o usuário através do seu id.")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<UserDTO> listUserById(@PathVariable Long id) {
-		UserDTO result = userService.listUserById(id);
-		return ResponseEntity.ok().body(result);
+		UserDTO userDTO = userService.listUserById(id);
+		return ResponseEntity.ok().body(userDTO);
 	}
 
 	@Operation(description = "Remove o usuário através do seu id.")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
 		userService.deleteUserById(id);
-		return ResponseEntity.ok(Messages.REMOTION.getMessage());
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("X-Message", Messages.REMOVED.getMessage());
+		return ResponseEntity.noContent().headers(headers).build();
 	}
 
 	@Operation(description = "Atualiza o usuário na base de dados.")
 	@PutMapping
 	public ResponseEntity<String> updateUser(@RequestBody User user) {
 		userService.updateUser(user);
-		return ResponseEntity.ok(Messages.UPDATE.getMessage());
+		return ResponseEntity.ok(Messages.UPDATED.getMessage());
 	}
 }

@@ -1,4 +1,4 @@
-package com.restapi.userdpt.exceptions;
+package com.restapi.userdpt.arq;
 
 import java.io.Serializable;
 import java.time.Instant;

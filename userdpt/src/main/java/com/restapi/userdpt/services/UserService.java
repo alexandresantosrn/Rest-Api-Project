@@ -26,42 +26,62 @@ public class UserService {
 
 	public UserDTO createUser(User user) {
 
-		List<User> users = listUsers();
-		for (User userLocal : users) {
-			if (userLocal.getEmail().equals(user.getEmail())) {
-				throw new NegocioException(
-						"Cadastro não permitido. Já existe um usuário cadastrado com o e-mail informado.");
+		List<User> users = listUsers(false); // Listar os usuários sem disparar exceção.
+		if (!users.isEmpty()) {
+			for (User userLocal : users) {
+				if (userLocal.getEmail().equals(user.getEmail())) {
+					throw new NegocioException(
+							"Cadastro não permitido. Já existe um usuário cadastrado com o e-mail informado.");
+				}
 			}
 		}
 
-		User result = userRepository.save(user);
-		return new UserDTO(result);
+		User userSaved = userRepository.save(user);
+		return new UserDTO(userSaved); // Convertendo User em UserDTO.
 	}
 
 	public List<User> listUsers() {
-		Sort sort = Sort.by("department").descending().and(Sort.by("name").ascending());
-		return userRepository.findAll(sort);
+		return listUsers(true);
+	}
+
+	public List<User> listUsers(boolean showException) {
+		Sort sort = Sort.by("department").descending().and(Sort.by("name").ascending()); // Ordenando por departamento
+																							// (descendente) e nome
+																							// (ascendente).
+		List<User> users = userRepository.findAll(sort);
+		if (users.isEmpty() && showException) {
+			throw new EntityNotFoundException("Users not found.");
+		}
+
+		return users;
 	}
 
 	public UserDTO listUserById(Long id) {
-		User result = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Id not found: " + id));
-		return modelMapper.map(result, UserDTO.class);
+		User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Id not found: " + id));
+		return modelMapper.map(user, UserDTO.class); // Retornando com modelMapper.
 	}
 
 	public void deleteUserById(Long id) {
 		UserDTO userDTO = listUserById(id);
+
+		if (userDTO == null) {
+			throw new EntityNotFoundException("Id not found: " + id);
+		}
+
 		userRepository.deleteById(userDTO.getId());
 	}
 
 	public void updateUser(User user) {
 		boolean userExists = false;
 
-		List<User> users = listUsers();
-		for (User userLocal : users) {
-			if (Objects.equals(userLocal.getId(), user.getId())) {
-				userRepository.save(user);
-				userExists = true;
-				break;
+		List<User> users = listUsers(false); // Listar os usuários sem disparar exceção.
+		if (!users.isEmpty()) {
+			for (User userLocal : users) {
+				if (Objects.equals(userLocal.getId(), user.getId())) {
+					userRepository.save(user);
+					userExists = true;
+					break;
+				}
 			}
 		}
 

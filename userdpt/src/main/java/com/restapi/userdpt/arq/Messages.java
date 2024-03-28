@@ -2,8 +2,8 @@ package com.restapi.userdpt.arq;
 
 public enum Messages {
 
-	SUCESS("Cadastro realizado com sucesso!"), REMOTION("Dado removido com sucesso!"),
-	UPDATE("Dados atualizados com sucesso!");
+	SUCESS("Cadastro realizado com sucesso!"), REMOVED("Dado removido com sucesso!"),
+	UPDATED("Dados atualizados com sucesso!");
 
 	private final String message;
 

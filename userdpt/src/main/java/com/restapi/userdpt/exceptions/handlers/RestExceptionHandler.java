@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.restapi.userdpt.arq.RestErrorMessage;
 import com.restapi.userdpt.exceptions.EntityNotFoundException;
 import com.restapi.userdpt.exceptions.NegocioException;
-import com.restapi.userdpt.exceptions.RestErrorMessage;
 
 import jakarta.servlet.http.HttpServletRequest;
 
