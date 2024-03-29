@@ -20,3 +20,6 @@ Link: https://www.youtube.com/watch?v=7HvOBCqHWvA
 
 #ModelMapper
 Link: https://www.youtube.com/watch?v=2Iqo7rzNm-o
+
+#Spring E-mail
+Link: https://www.youtube.com/watch?v=GPjgfjayWos
