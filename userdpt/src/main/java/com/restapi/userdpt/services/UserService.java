@@ -1,12 +1,12 @@
 package com.restapi.userdpt.services;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.restapi.userdpt.arq.Messages;
 import com.restapi.userdpt.dtos.UserDTO;
 import com.restapi.userdpt.entities.User;
 import com.restapi.userdpt.exceptions.EntityNotFoundException;
@@ -25,16 +25,7 @@ public class UserService {
 	}
 
 	public UserDTO createUser(User user) {
-
-		List<User> users = listUsers(false); // Listar os usuários sem disparar exceção.
-		if (!users.isEmpty()) {
-			for (User userLocal : users) {
-				if (userLocal.getEmail().equals(user.getEmail())) {
-					throw new NegocioException(
-							"Cadastro não permitido. Já existe um usuário cadastrado com o e-mail informado.");
-				}
-			}
-		}
+		validarEmail(user);
 
 		User userSaved = userRepository.save(user);
 		return new UserDTO(userSaved); // Convertendo User em UserDTO.
@@ -57,36 +48,41 @@ public class UserService {
 	}
 
 	public UserDTO listUserById(Long id) {
-		User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Id not found: " + id));
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(Messages.ID_NOT_FOUND.getMessage() + id));
 		return modelMapper.map(user, UserDTO.class); // Retornando com modelMapper.
 	}
 
 	public void deleteUserById(Long id) {
 		UserDTO userDTO = listUserById(id);
-
 		if (userDTO == null) {
-			throw new EntityNotFoundException("Id not found: " + id);
+			throw new EntityNotFoundException(Messages.ID_NOT_FOUND.getMessage() + id);
 		}
 
 		userRepository.deleteById(userDTO.getId());
 	}
 
 	public void updateUser(User user) {
-		boolean userExists = false;
+		validarEmail(user);
+
+		UserDTO userDTO = listUserById(user.getId());
+		if (userDTO == null) {
+			throw new EntityNotFoundException(Messages.ID_NOT_FOUND.getMessage() + user.getId());
+		}
+
+		userRepository.save(user);
+	}
+
+	public void validarEmail(User user) {
 
 		List<User> users = listUsers(false); // Listar os usuários sem disparar exceção.
 		if (!users.isEmpty()) {
 			for (User userLocal : users) {
-				if (Objects.equals(userLocal.getId(), user.getId())) {
-					userRepository.save(user);
-					userExists = true;
-					break;
+				if (userLocal.getEmail().equals(user.getEmail()) && (!user.getId().equals(userLocal.getId()))) {
+					throw new NegocioException(
+							"Cadastro não permitido. Já existe um usuário cadastrado com o e-mail informado.");
 				}
 			}
-		}
-
-		if (!userExists) {
-			throw new EntityNotFoundException("Id not found: " + user.getId());
 		}
 	}
 }
