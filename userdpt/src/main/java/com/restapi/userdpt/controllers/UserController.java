@@ -20,6 +20,8 @@ import com.restapi.userdpt.entities.User;
 import com.restapi.userdpt.services.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -32,6 +34,8 @@ public class UserController {
 	}
 
 	@Operation(description = "Salva um novo usuário na base de dados.")
+	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Salva um novo usuário."),
+			@ApiResponse(responseCode = "422", description = "Impede o cadastro caso já exista um usuário com e-mail informado.") })
 	@PostMapping
 	public ResponseEntity<String> createUser(@RequestBody User user) {
 		userService.createUser(user);
@@ -40,12 +44,17 @@ public class UserController {
 
 	@Operation(description = "Busca todos os usuários.")
 	@GetMapping
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Lista todos os usuários."),
+			@ApiResponse(responseCode = "400", description = "Informa que a lista é vazia.") })
 	public ResponseEntity<List<User>> listUsers() {
 		List<User> users = userService.listUsers();
 		return ResponseEntity.ok(users);
 	}
 
 	@Operation(description = "Busca o usuário através do seu id.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Lista o usuário através do id informado."),
+			@ApiResponse(responseCode = "400", description = "Informa que não há usuário com o id informado.") })
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<UserDTO> listUserById(@PathVariable Long id) {
 		UserDTO userDTO = userService.listUserById(id);
@@ -53,6 +62,9 @@ public class UserController {
 	}
 
 	@Operation(description = "Remove o usuário através do seu id.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "204", description = "Remove o usuário através do id informado."),
+			@ApiResponse(responseCode = "400", description = "Informa que não há usuário com o id informado.") })
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
 		userService.deleteUserById(id);
@@ -62,6 +74,9 @@ public class UserController {
 	}
 
 	@Operation(description = "Atualiza o usuário na base de dados.")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Atualiza o usuário."),
+			@ApiResponse(responseCode = "400", description = "Informa que não há usuário com o id informado."),
+			@ApiResponse(responseCode = "422", description = "Impede a atualização caso já exista um usuário com e-mail informado.") })
 	@PutMapping
 	public ResponseEntity<String> updateUser(@RequestBody User user) {
 		userService.updateUser(user);
