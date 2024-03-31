@@ -18,9 +18,9 @@ public class EmailService {
 	public void sendEmail(Email email) {
 		var message = new SimpleMailMessage();
 		message.setFrom("noreply@email.com");
-		message.setTo(email.getTo());
-		message.setSubject(email.getSubject());
-		message.setText(email.getBody());
+		message.setTo(email.to());
+		message.setSubject(email.subject());
+		message.setText(email.body());
 		mailSender.send(message);
 	}
 
