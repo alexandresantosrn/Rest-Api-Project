@@ -14,6 +14,7 @@ Link: https://www.youtube.com/watch?v=MAv7xgnSD-s
 #Java e Docker
 Link: https://www.youtube.com/watch?v=c-Bq6JUfRnk
 https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes-pt
+https://medium.com/@fernandoevangelista_28291/criando-e-enviando-imagem-docker-com-java-e-maven-4fa3c70dba0f
 
 #DTOs
 Link: https://www.youtube.com/watch?v=7HvOBCqHWvA
