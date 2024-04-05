@@ -24,3 +24,6 @@ Link: https://www.youtube.com/watch?v=2Iqo7rzNm-o
 
 #Spring E-mail
 Link: https://www.youtube.com/watch?v=GPjgfjayWos
+
+#Spring Security
+Link: https://www.youtube.com/watch?v=EQ5EwIYsgIE

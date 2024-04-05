@@ -72,6 +72,11 @@ public class UserService {
 
 		userRepository.save(user);
 	}
+	
+	public void deleteUsers() {	
+		
+		userRepository.deleteAll();
+	}
 
 	public void validarEmail(User user) {
 
