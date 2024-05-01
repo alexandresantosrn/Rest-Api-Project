@@ -34,3 +34,7 @@ Small Rest API project in Java Language.
 - Listar imagens: ```docker images -a```.
 - Remover contâiner: ```docker rm ID```.
 - Remover imagem: ```docker rmi ID```.
+
+### Observações
+
+- Com o mapeamento das portas: ```35432:5432``` não é necessário desabilitar a execução do Postgres.
