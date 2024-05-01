@@ -18,7 +18,7 @@ services:
     image: postgres:latest
     restart: always
     ports:
-      - "5432:5432"
+      - "35432:5432"
     environment:
       POSTGRES_DB: apirestdb
       POSTGRES_USER: postgres
