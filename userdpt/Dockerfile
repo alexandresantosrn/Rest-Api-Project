@@ -1,5 +1,5 @@
 # Use a imagem oficial do Maven como base para compilar o projeto
-FROM maven:3.8.4-openjdk-17-slim AS builder
+FROM maven:3.8.4-openjdk-17 AS builder
 
 # Copie o arquivo pom.xml para um diretório temporário
 COPY pom.xml /tmp/

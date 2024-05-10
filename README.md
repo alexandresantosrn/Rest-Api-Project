@@ -34,6 +34,8 @@ Small Rest API project in Java Language.
 - Listar imagens: ```docker images -a```.
 - Remover contâiner: ```docker rm ID```.
 - Remover imagem: ```docker rmi ID```.
+- Remover todos containers: ```docker rm $(docker ps -aq)```.
+- Remover todas as imagens: ```docker rmi $(docker images -q)```.
 
 ### Observações
 
