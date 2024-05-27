@@ -73,14 +73,13 @@ public class UserService {
 		userRepository.save(user);
 	}
 	
-	public void deleteUsers() {	
-		
+	public void deleteUsers() {			
 		userRepository.deleteAll();
 	}
 
 	public void validarEmail(User user) {
-
 		List<User> users = listUsers(false); // Listar os usuários sem disparar exceção.
+		
 		if (!users.isEmpty()) {
 			for (User userLocal : users) {
 				if (userLocal.getEmail().equals(user.getEmail()) && (!user.getId().equals(userLocal.getId()))) {
