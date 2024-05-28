@@ -82,9 +82,9 @@ public class UserRestController {
 		userService.updateUser(user);
 		return ResponseEntity.ok(Messages.UPDATED.getMessage());
 	}
-	
+
 	public ResponseEntity<String> deleteUsers() {
-		userService.deleteUsers();;
+		userService.deleteUsers();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("X-Message", Messages.REMOVED.getMessage());
 		return ResponseEntity.noContent().headers(headers).build();
