@@ -15,10 +15,10 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http.authorizeHttpRequests(authorizeConfig -> {
 			authorizeConfig.requestMatchers("/users").permitAll();	
-			authorizeConfig.requestMatchers("/users-list").permitAll();
 			authorizeConfig.anyRequest().authenticated();
 		})
-		.formLogin(Customizer.withDefaults()) // Apresentando form de login do Spring Security.
+		//.formLogin(Customizer.withDefaults()) // Apresentando form de login do Spring Security.
+		.oauth2Login(Customizer.withDefaults())	
 		.build();
 	}
 }

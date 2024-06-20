@@ -11,11 +11,11 @@ import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping(value = "/email")
-public class EmailController {
+public class EmailRestController {
 
 	private final EmailService emailService;
 
-	public EmailController(EmailService emailService) {
+	public EmailRestController(EmailService emailService) {
 		this.emailService = emailService;
 	}
 
@@ -24,5 +24,5 @@ public class EmailController {
 	public void sendEmail(Email email) {
 		emailService.sendEmail(email);
 	}
-
+	
 }
