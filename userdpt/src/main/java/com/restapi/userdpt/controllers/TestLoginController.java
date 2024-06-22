@@ -2,6 +2,7 @@ package com.restapi.userdpt.controllers;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -19,6 +20,15 @@ public class TestLoginController {
 				<h3>JWT: %s</h3>
 				""", principal, principal.getAttribute("email"), principal.getAuthorities(),
 				principal.getIdToken().getTokenValue());
+	}
+	
+	@GetMapping("/jwt")
+	String testJwt(@AuthenticationPrincipal Jwt jwt) {
+		return String.format("""
+				Principal: %s\n
+				Email attribute: %s\n
+				JWT: %s\n
+				""", jwt.getClaims(), jwt.getClaim("email"), jwt.getTokenValue());
 	}
 
 }
