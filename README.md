@@ -21,8 +21,6 @@ Small Rest API project in Java Language.
 
 ### Executar aplicação via docker
 
-- Verificar se a versão utilizada é a 17. Comando: ```java -version```.
-- Build. Executar: ```mvn clean package```.
 - Desabilitar o postgresql na máquina: ```systemctl stop postgresql```.
 - Rodando aplicação. Executar: ```docker-compose up```.
 - Verificar status do postgresql: ```systemctl status postgresql```.
