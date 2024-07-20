@@ -17,11 +17,9 @@ public class SecurityConfig {
 			authorizeConfig.requestMatchers("/users").permitAll();	
 			authorizeConfig.anyRequest().authenticated();
 		})
-		//.formLogin(Customizer.withDefaults()) // Apresentando form de login do Spring Security.
-		.oauth2Login(Customizer.withDefaults())	// Apresentando formulário de login do oauth / Google.
-		.oauth2ResourceServer(config -> {
-	          config.jwt(Customizer.withDefaults()); // Autenticando via Jwt.
-	        })
+		//.formLogin(Customizer.withDefaults()) //Apresentando form de login do Spring Security.
+		.oauth2Login(Customizer.withDefaults())	//Apresentando formulário de login do oauth / Google.
+		.oauth2ResourceServer(config -> config.jwt(Customizer.withDefaults())) //Autenticando via Jwt.
 		.build();
 	}
 }
