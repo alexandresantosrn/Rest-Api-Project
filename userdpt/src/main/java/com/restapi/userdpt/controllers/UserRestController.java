@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
-@RequestMapping(value = "/users-list")
+@RequestMapping(value = "/users")
 public class UserRestController {
 
 	private final UserService userService;
