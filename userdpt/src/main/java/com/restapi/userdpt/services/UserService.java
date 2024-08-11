@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.restapi.userdpt.arq.Messages;
 import com.restapi.userdpt.dtos.UserDTO;
 import com.restapi.userdpt.entities.User;
+import com.restapi.userdpt.exceptions.ConflictException;
 import com.restapi.userdpt.exceptions.EntityNotFoundException;
 import com.restapi.userdpt.exceptions.NegocioException;
 import com.restapi.userdpt.repositories.UserRepository;
@@ -24,23 +25,63 @@ public class UserService {
 		this.modelMapper = modelMapper;
 	}
 
+	/**
+	 * Realiza o cadastro de um novo usuário.
+	 * 
+	 * @param user
+	 * @return
+	 */
 	public UserDTO createUser(User user) {
+		validarCamposUser(user);
 		validarEmail(user);
 
-		User userSaved = userRepository.save(user);
-		return new UserDTO(userSaved); // Convertendo User em UserDTO.
+		User userSaved = userRepository.save(user); // Salvando no repositório
+		return new UserDTO(userSaved); // Convertendo User em UserDTO e retornando para a view.
+	}
+
+	/**
+	 * Valida os campos obrigatórios para cadastro de um novo usuário.
+	 * 
+	 * @param user
+	 */
+	private void validarCamposUser(User user) {
+		if (user.getName().equals("") || user.getEmail().equals("") || user.getDepartment() == null) {
+			throw new NegocioException("Cadastro não permitido. Campos obrigatórios não foram informados.");
+		}
+	}
+
+	/**
+	 * Valida o e-mail do usuário. Não é possível cadastrar um novo usuário se o
+	 * e-mail já estiver em uso.
+	 * 
+	 * @param user
+	 */
+	private void validarEmail(User user) {
+		User userLocal = findUserByEmail(user.getEmail());
+
+		if (userLocal != null) {
+			throw new ConflictException(
+					"Cadastro não permitido. Já existe um usuário cadastrado com o e-mail informado.");
+		}
+
+	}
+
+	/**
+	 * Retorna a instância de um usuário a partir do seu e-mail.
+	 * 
+	 * @param email
+	 * @return
+	 */
+	private User findUserByEmail(String email) {
+		return userRepository.findUserByEmail(email);
 	}
 
 	public List<User> listUsers() {
-		return listUsers(true);
-	}
-
-	public List<User> listUsers(boolean showException) {
 		Sort sort = Sort.by("department").descending().and(Sort.by("name").ascending()); // Ordenando por departamento
 																							// (descendente) e nome
 																							// (ascendente).
 		List<User> users = userRepository.findAll(sort);
-		if (users.isEmpty() && showException) {
+		if (users.isEmpty()) {
 			throw new EntityNotFoundException("Users not found.");
 		}
 
@@ -72,21 +113,9 @@ public class UserService {
 
 		userRepository.save(user);
 	}
-	
-	public void deleteUsers() {			
+
+	public void deleteUsers() {
 		userRepository.deleteAll();
 	}
 
-	public void validarEmail(User user) {
-		List<User> users = listUsers(false); // Listar os usuários sem disparar exceção.
-		
-		if (!users.isEmpty()) {
-			for (User userLocal : users) {
-				if (userLocal.getEmail().equals(user.getEmail()) && (!user.getId().equals(userLocal.getId()))) {
-					throw new NegocioException(
-							"Cadastro não permitido. Já existe um usuário cadastrado com o e-mail informado.");
-				}
-			}
-		}
-	}
 }

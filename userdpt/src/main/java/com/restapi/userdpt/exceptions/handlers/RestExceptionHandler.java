@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.restapi.userdpt.arq.RestErrorMessage;
+import com.restapi.userdpt.exceptions.ConflictException;
 import com.restapi.userdpt.exceptions.EntityNotFoundException;
 import com.restapi.userdpt.exceptions.NegocioException;
 
@@ -39,4 +40,15 @@ public class RestExceptionHandler {
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
 	}
 
+	@ExceptionHandler(ConflictException.class)
+	public ResponseEntity<RestErrorMessage> conflictException(ConflictException e, HttpServletRequest request) {
+		RestErrorMessage err = new RestErrorMessage();
+		err.setTimestamp(Instant.now());
+		err.setStatus(HttpStatus.CONFLICT.value());
+		err.setError("Conflict error");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
+	}
 }

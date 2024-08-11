@@ -2,8 +2,10 @@ package com.restapi.userdpt.arq;
 
 public enum Messages {
 
-	SUCESS("Cadastro realizado com sucesso!"), REMOVED("Dado removido com sucesso!"),
-	UPDATED("Dados atualizados com sucesso!"), ID_NOT_FOUND("Id not found: ");
+	OK("Cadastro realizado com sucesso!"), 
+	REMOVED("Dado removido com sucesso!"),
+	UPDATED("Dados atualizados com sucesso!"), 
+	ID_NOT_FOUND("Id not found: ");
 
 	private final String message;
 

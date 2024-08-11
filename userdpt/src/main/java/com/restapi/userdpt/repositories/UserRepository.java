@@ -6,4 +6,6 @@ import com.restapi.userdpt.entities.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+	User findUserByEmail(String email);
+
 }

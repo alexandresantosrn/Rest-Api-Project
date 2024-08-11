@@ -35,11 +35,12 @@ public class UserRestController {
 
 	@Operation(description = "Salva um novo usuário na base de dados.")
 	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Salva um novo usuário."),
-			@ApiResponse(responseCode = "422", description = "Impede o cadastro caso já exista um usuário com e-mail informado.") })
+			@ApiResponse(responseCode = "409", description = "Impede o cadastro caso já exista um usuário com e-mail informado."),
+			@ApiResponse(responseCode = "422", description = "Impede o cadastro caso alguns dos campos obrigatórios não tenham sido informados.") })
 	@PostMapping
 	public ResponseEntity<String> createUser(@RequestBody User user) {
 		userService.createUser(user);
-		return ResponseEntity.status(HttpStatus.CREATED).body(Messages.SUCESS.getMessage());
+		return ResponseEntity.status(HttpStatus.CREATED).body(Messages.OK.getMessage());
 	}
 
 	@Operation(description = "Busca todos os usuários.")
