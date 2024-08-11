@@ -76,13 +76,18 @@ public class UserService {
 		return userRepository.findUserByEmail(email);
 	}
 
+	/**
+	 * Retorna a listagem de todos os usuários.
+	 * 
+	 * @return
+	 */
 	public List<User> listUsers() {
 		Sort sort = Sort.by("department").descending().and(Sort.by("name").ascending()); // Ordenando por departamento
 																							// (descendente) e nome
 																							// (ascendente).
 		List<User> users = userRepository.findAll(sort);
 		if (users.isEmpty()) {
-			throw new EntityNotFoundException("Users not found.");
+			throw new EntityNotFoundException("Não há registros de usuários na base de dados.");
 		}
 
 		return users;

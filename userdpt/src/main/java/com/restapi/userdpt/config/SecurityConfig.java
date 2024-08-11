@@ -14,14 +14,14 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http
-				.csrf(csrf -> csrf.disable())
+				.csrf(csrf -> csrf.disable()) // Desabilitando csrf (problemas em requisições post).
 				.authorizeHttpRequests(authorizeConfig -> {
-			authorizeConfig.requestMatchers("/users").permitAll();	
+			authorizeConfig.requestMatchers("/users-list").permitAll();	
 			authorizeConfig.anyRequest().authenticated();
 		})
-		//.formLogin(Customizer.withDefaults()) //Apresentando form de login do Spring Security.
-		.oauth2Login(Customizer.withDefaults())	//Apresentando formulário de login do oauth / Google.
-		.oauth2ResourceServer(config -> config.jwt(Customizer.withDefaults())) //Autenticando via Jwt.
+		//.formLogin(Customizer.withDefaults()) // Apresentando form de login do Spring Security.
+		.oauth2Login(Customizer.withDefaults())	// Apresentando formulário de login do oauth / Google.
+		.oauth2ResourceServer(config -> config.jwt(Customizer.withDefaults())) // Autenticando via Jwt.
 		.build();
 	}
 }
