@@ -16,7 +16,7 @@ public class SecurityConfig {
 		return http
 				.csrf(csrf -> csrf.disable()) // Desabilitando csrf (problemas em requisições post).
 				.authorizeHttpRequests(authorizeConfig -> {
-			authorizeConfig.requestMatchers("/users-list").permitAll();	
+			authorizeConfig.requestMatchers("/users").permitAll();
 			authorizeConfig.anyRequest().authenticated();
 		})
 		//.formLogin(Customizer.withDefaults()) // Apresentando form de login do Spring Security.
