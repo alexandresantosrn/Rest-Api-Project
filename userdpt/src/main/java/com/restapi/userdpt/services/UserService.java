@@ -63,7 +63,6 @@ public class UserService {
 			throw new ConflictException(
 					"Cadastro não permitido. Já existe um usuário cadastrado com o e-mail informado.");
 		}
-
 	}
 
 	/**
@@ -92,13 +91,24 @@ public class UserService {
 
 		return users;
 	}
-
+	
+	/**
+	 * Retorna o usuário através do seu id.
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public UserDTO listUserById(Long id) {
 		User user = userRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException(Messages.ID_NOT_FOUND.getMessage() + id));
 		return modelMapper.map(user, UserDTO.class); // Retornando com modelMapper.
 	}
 
+	/**
+	 * Remove o usuário através do seu id.
+	 * 
+	 * @param id
+	 */
 	public void deleteUserById(Long id) {
 		UserDTO userDTO = listUserById(id);
 		if (userDTO == null) {
@@ -107,7 +117,12 @@ public class UserService {
 
 		userRepository.deleteById(userDTO.getId());
 	}
-
+	
+	/**
+	 * Atualiza um usuário.
+	 * 
+	 * @param user
+	 */
 	public void updateUser(User user) {
 		validarEmail(user);
 
@@ -118,9 +133,11 @@ public class UserService {
 
 		userRepository.save(user);
 	}
-
+	
+	/**
+	 * Remove todos os usuários.
+	 */
 	public void deleteUsers() {
 		userRepository.deleteAll();
 	}
-
 }
