@@ -24,4 +24,5 @@ public class SecurityConfig {
 		.oauth2ResourceServer(config -> config.jwt(Customizer.withDefaults())) // Autenticando via Jwt.
 		.build();
 	}
+	
 }

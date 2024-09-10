@@ -11,6 +11,7 @@ public class UserDTO {
 	private Departament department;
 
 	public UserDTO() {
+		
 	}
 
 	public UserDTO(Long id, String name, String email, Departament department) {
