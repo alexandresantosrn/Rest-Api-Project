@@ -34,7 +34,8 @@ public class UserRestController {
 	}
 
 	@Operation(description = "Salva um novo usuário na base de dados.")
-	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Salva um novo usuário."),
+	@ApiResponses(value = { 
+			@ApiResponse(responseCode = "201", description = "Salva um novo usuário."),
 			@ApiResponse(responseCode = "409", description = "Impede o cadastro caso já exista um usuário com e-mail informado."),
 			@ApiResponse(responseCode = "422", description = "Impede o cadastro caso alguns dos campos obrigatórios não tenham sido informados.") })
 	@PostMapping
@@ -45,7 +46,8 @@ public class UserRestController {
 
 	@Operation(description = "Busca todos os usuários.")
 	@GetMapping
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Lista todos os usuários."),
+	@ApiResponses(value = { 
+			@ApiResponse(responseCode = "200", description = "Lista todos os usuários."),
 			@ApiResponse(responseCode = "404", description = "Informa que a lista é vazia.") })
 	public ResponseEntity<List<User>> listUsers() {
 		List<User> users = userService.listUsers();
@@ -75,7 +77,8 @@ public class UserRestController {
 	}
 
 	@Operation(description = "Atualiza o usuário na base de dados.")
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Atualiza o usuário."),
+	@ApiResponses(value = { 
+			@ApiResponse(responseCode = "200", description = "Atualiza o usuário."),
 			@ApiResponse(responseCode = "404", description = "Informa que não há usuário com o id informado."),
 			@ApiResponse(responseCode = "409", description = "Impede a atualização caso já exista um usuário com e-mail informado.") })
 	@PutMapping
@@ -85,6 +88,8 @@ public class UserRestController {
 	}
 	
 	@Operation(description = "Remove todos os usuários da base de dados.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "204", description = "Remove todos os usuários existentes.") })
 	public ResponseEntity<String> deleteUsers() {
 		userService.deleteUsers();
 		HttpHeaders headers = new HttpHeaders();
